@@ -1,0 +1,15 @@
+• Exercise: Data Wrangler
+
+In this exercise, we'll be using Data Wrangler to perform some of the same analysis we did with our ice cream dataset. What this allows is another set of tools to run analysis easily and quickly!
+
+• Procedures for this exercise:
+
+1. Launch the AWS Gateway.
+2. Load yum-yum-ice-cream.csv from the Github repo you should have cloned earlier to S3. Create a new bucket if you have not already done so.
+3. Open up Sagemaker Studio.
+4. Under the Launcher tab that is viewable when you first start Sagemaker Studio, click and create the Data Wrangler flow.
+5. Transform the date field to have year, month, and day as their own features.
+6. Create a visualization of the features using Table Summary.
+7. Create a visualization of the features using Histogram.
+8. Save the results by exporting to S3.
+

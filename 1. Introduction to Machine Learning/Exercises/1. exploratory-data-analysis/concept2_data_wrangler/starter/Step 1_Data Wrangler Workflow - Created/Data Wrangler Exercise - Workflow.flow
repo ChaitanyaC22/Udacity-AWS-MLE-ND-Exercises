@@ -1,0 +1,191 @@
+{
+  "metadata": {
+    "version": 1,
+    "disable_limits": false,
+    "instance_type": "ml.m5.4xlarge"
+  },
+  "parameters": [],
+  "nodes": [
+    {
+      "node_id": "76bc2628-b429-4668-bce1-34c32bd0d0b2",
+      "type": "SOURCE",
+      "operator": "sagemaker.s3_source_0.1",
+      "parameters": {
+        "dataset_definition": {
+          "__typename": "S3CreateDatasetDefinitionOutput",
+          "datasetSourceType": "S3",
+          "name": "yum-yum-ice-cream.csv",
+          "description": null,
+          "s3ExecutionContext": {
+            "__typename": "S3ExecutionContext",
+            "s3Uri": "s3://sagemaker-studio-859339809714-c9kzp0u3s2j/yum-yum-ice-cream.csv",
+            "s3ContentType": "csv",
+            "s3HasHeader": true,
+            "s3FieldDelimiter": ",",
+            "s3DirIncludesNested": false,
+            "s3AddsFilenameColumn": false,
+            "s3RoleArn": null
+          }
+        }
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "default",
+          "sampling": {
+            "sampling_method": "sample_by_limit",
+            "limit_rows": 50000
+          }
+        }
+      ]
+    },
+    {
+      "node_id": "3808e0c7-e549-4348-9f8b-2ab778016dec",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.infer_and_cast_type_0.1",
+      "parameters": {},
+      "trained_parameters": {
+        "schema": {
+          "date": "date",
+          "ice_cream_type": "long",
+          "topping": "long",
+          "location": "long"
+        }
+      },
+      "inputs": [
+        {
+          "name": "default",
+          "node_id": "76bc2628-b429-4668-bce1-34c32bd0d0b2",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "7c0d11cf-62e8-4754-9805-a9a9c2f7425d",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.featurize_date_time_0.1",
+      "parameters": {
+        "operator": "Extract columns",
+        "extract_columns_parameters": {
+          "input_column": [
+            "date"
+          ],
+          "output_mode": "Ordinal",
+          "output_format": "Columns",
+          "infer_datetime_format": false,
+          "date_time_format": "",
+          "year": true,
+          "month": true,
+          "day": true,
+          "hour": false,
+          "minute": false,
+          "second": false,
+          "week_of_year": false,
+          "day_of_year": false,
+          "quarter": false,
+          "use_one_indexing": false
+        }
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "3808e0c7-e549-4348-9f8b-2ab778016dec",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "54769d07-7165-46ca-bcb1-94cd208c5ddc",
+      "type": "VISUALIZATION",
+      "operator": "sagemaker.visualizations.describe_0.1",
+      "parameters": {
+        "name": "Table Summary"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "7c0d11cf-62e8-4754-9805-a9a9c2f7425d",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "501e298f-bab4-4669-adc0-3c7aef0e563f",
+      "type": "VISUALIZATION",
+      "operator": "sagemaker.visualizations.histogram_0.1",
+      "parameters": {
+        "name": "Histogram Ice-Cream Type",
+        "x_axis": "ice_cream_type"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "7c0d11cf-62e8-4754-9805-a9a9c2f7425d",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "3e0fa5fb-c5a9-4ac4-8597-de8bd7346e8c",
+      "type": "VISUALIZATION",
+      "operator": "sagemaker.visualizations.histogram_0.1",
+      "parameters": {
+        "name": "Histogram - Topping",
+        "x_axis": "topping"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "7c0d11cf-62e8-4754-9805-a9a9c2f7425d",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "f50c178f-df77-488c-8377-a7f6ee11c0d5",
+      "type": "VISUALIZATION",
+      "operator": "sagemaker.visualizations.histogram_0.1",
+      "parameters": {
+        "name": "Histogram - Location",
+        "x_axis": "location"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "7c0d11cf-62e8-4754-9805-a9a9c2f7425d",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    }
+  ]
+}
